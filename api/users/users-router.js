@@ -1,14 +1,15 @@
 const express = require("express");
 const Users = require("./users.model");
 const router = express.Router();
+const security = require("../auth/auth-middleware");
 
-router.get("/", (req, res) => {
+router.get("/", security, (req, res) => {
   Users.getAll()
-    .then(res => {
-      console.log(res);
+    .then(users => {
+      res.status(200).json(users);
     })
     .catch(err => {
-      console.log(err);
+      res.status(500).json(err);
     });
 });
 
