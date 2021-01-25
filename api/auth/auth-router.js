@@ -16,4 +16,17 @@ router.post("/register", (req, res) => {
     });
 });
 
+router.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  const validUser = Users.findBy({ username });
+  if (validUser && bcrypt.compareSync(password, validUser.password)) {
+    req.session.user = validUser;
+    res.json("Welcome Back!");
+  } else if (!validUser) {
+    res.status(401).json({ errorMessage: error.message });
+  } else {
+    res.status(500).json({ errorMessage: error.message });
+  }
+});
+
 module.exports = router;
