@@ -9,10 +9,10 @@ module.exports = {
       .where(filter)
       .orderBy("id");
   },
-  findById(id) {
+  find() {
     return db("users")
-      .where("id", id)
-      .first();
+      .select("id", "username")
+      .orderBy("id");
   },
   async add(user) {
     return await db("users")
@@ -22,5 +22,10 @@ module.exports = {
           .where("id", id)
           .first();
       });
+  },
+  findById(id) {
+    return db("users")
+      .where({ id })
+      .first();
   }
 };
